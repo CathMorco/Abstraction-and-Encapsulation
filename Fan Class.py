@@ -12,14 +12,14 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushBut
 
 #creates class for widgets
 class Fan(QWidget):
-    def __init__(self, x, y):
+    def __init__(self, speed, radius, color, x, y):
         super().__init__()
         self.positionx = x
         self.positiony = y
-        self.__speed = 1
+        self.__speed = speed
         self.__on = False
-        self.__radius = 0
-        self.__color = ""
+        self.__radius = radius
+        self.__color = color
 
         self.initUI()
 # accessor(getters)  and mutator(setters) for a private int data field named speed 
@@ -59,16 +59,19 @@ class Fan(QWidget):
         radius_label = QLabel("Radius:")
         self.radius_value_label = QLabel(str(self.getter_radius()))
         color_label = QLabel("Color:")
-        color_value_label = QLabel(self.getter_color())
+        self.color_value_label = QLabel(self.getter_color())
+        
+        change_on_button = QPushButton("Turn On/Off")
+        change_on_button.clicked.connect(self.change_on)
 
         change_speed_button = QPushButton("Change Speed")
         change_speed_button.clicked.connect(self.change_speed)
 
-        change_on_button = QPushButton("Turn On/Off")
-        change_on_button.clicked.connect(self.change_on)
-
         change_radius_button = QPushButton("Change Radius")
         change_radius_button.clicked.connect(self.change_radius)
+
+        change_color_button = QPushButton("Change Color")
+        change_color_button.clicked.connect(self.change_color)
 
         vbox = QVBoxLayout()
         vbox.addWidget(speed_label)
@@ -78,10 +81,11 @@ class Fan(QWidget):
         vbox.addWidget(radius_label)
         vbox.addWidget(self.radius_value_label)
         vbox.addWidget(color_label)
-        vbox.addWidget(color_value_label)
+        vbox.addWidget(self.color_value_label)
         vbox.addWidget(change_speed_button)
         vbox.addWidget(change_on_button)
         vbox.addWidget(change_radius_button)
+        vbox.addWidget(change_color_button)
 
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 200, 200)
@@ -98,7 +102,7 @@ class Fan(QWidget):
 
     def change_on(self):
         self.setter_on(not self.__on)
-        self.on_value_label.setText(str(self.__on))
+        self.on_value_label.setText(str(self.getter_on()))
 
 
     def change_radius(self):
@@ -110,7 +114,15 @@ class Fan(QWidget):
             else:
                 QMessageBox.warning(self, "Invalid Radius", "I'm sorry, your radius can not be negative in value, please choose a positive integer")
 
+    def change_color(self):
+        colors = ["Red", "Green", "Blue", "Pink", "White", "Orange", "Yellow", "Purple","Lilac","Lavender","Indigo"]
+        color, ok = QInputDialog.getItem(self, "Change Color", "Select Color:", colors, 0, False)
+        if ok and color:
+            self.setter_color(color)
+            self.color_value_label.setText(str(self.getter_color()))
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    calculator = Fan(100, 100)
+    Fan1 = Fan(3,10,"Yellow", 100, 100)
+    Fan2 = Fan(2,5,"Blue", 500, 100)
     sys.exit(app.exec_())

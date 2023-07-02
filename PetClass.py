@@ -1,26 +1,6 @@
-#Write a class named Pet, which should have the following data attributes:
-#• _ _name (for the name of a pet)
-#• _ _animal_type (for the type of animal that a pet is. Example values are ‘Dog’, ‘Cat’, and ‘Bird’)
-#• _ _age (for the pet’s age)
-
-#The Pet class should have an _ _init_ _ method that creates these attributes. It should also have the following methods:
-#• set_name()
-#This method assigns a value to the _ _name field.
-#• set_animal_type()
-#This method assigns a value to the _ _animal_type field.
-#• set_age()
-#This method assigns a value to the _ _age field.
-#• get_name()
-#This method returns the value of the _ _ name field.
-#• get_animal_type()
-#This method returns the value of the _ _animal_type field.
-#• get_age()
-#This method returns the value of the _ _age field.
-
 #Imports necessary elements
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QInputDialog, QMessageBox
-import sys
-from PyQt5.QtWidgets import QApplication
+
 
 #creates class for widgets
 class Pet(QWidget):
@@ -90,16 +70,37 @@ class Pet(QWidget):
         vbox.addWidget(change_age_button)
 
         self.setLayout(vbox)
-        self.setGeometry(self.positionx, self.positiony, 200, 200)
+        self.setGeometry(self.positionx, self.positiony, 400, 200)
         self.setWindowTitle("Pet")
+
+        #Sets the window's labels' & buttons' font size and color
+        self.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                color: #333333;
+            }
+            QPushButton {
+                font-size: 20px;
+                padding: 15px;
+                background-color: #7393B3;
+                color: white;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #0096FF;
+            }
+        """)
+
         self.show()
 
+    #The function that is connected to the change name button, it utilizes the setters and getters of the program
     def change_name(self):
         name, ok = QInputDialog.getText(self, "Change Name", "Enter Name:")
         if ok and name:
             self.set_name(name)
             self.nameLabel.setText(str(self.get_name()))
 
+    #The function that is connected to the change animal type button, it utilizes the setters and getters of the program
     def change_animalType(self):
         animals = ["Cat","Dog","Bird"]
         animal, ok = QInputDialog.getItem(self, "Change Animal Type", "Select Animal Type:", animals, 0, False)
@@ -107,6 +108,7 @@ class Pet(QWidget):
             self.set_animal_type(animal)
             self.animalType_label.setText(str(self.get_animal_type()))
 
+    #The function that is connected to the change age button, it utilizes the setters and getters of the program
     def change_age(self):
         age, ok = QInputDialog.getInt(self, "Change Age", "Enter Age. Your Age Should not be Negative in Value:", self.__age)
         if ok:
@@ -117,7 +119,3 @@ class Pet(QWidget):
                 QMessageBox.warning(self, "Invalid Age", "I'm sorry, your pet's age can not possibly be negative in value, please choose a positive integer")
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    pet = Pet( 100, 100)
-    sys.exit(app.exec_())

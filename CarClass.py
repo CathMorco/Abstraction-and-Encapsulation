@@ -1,18 +1,3 @@
-#Write a class named Car that has the following data attributes:
-#• _ _year_model (for the car’s year model)
-#• _ _make (for the make of the car)
-#• _ _speed (for the car’s current speed)
-
-#The Car class should have an _ _init_ _ method that accepts the car’s year model and make as arguments. These values should be assigned to the object’s _ _year_model and _ _make data attributes. It should also assign 0 to the _ _speed data attribute.
-
-#The class should also have the following methods:
-#• accelerate()
-#The accelerate method should add 5 to the speed data attribute each time it is called.
-#• brake()
-#The brake method should subtract 5 from the speed data attribute each time it is called.
-#• get_speed()
-#The get_speed method should return the current speed.
-
 #Imports necessary elements
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton
 import sys
@@ -54,6 +39,8 @@ class Car(QWidget):
         change_speed_button2 = QPushButton("Brake")
         change_speed_button2.clicked.connect(self.change_speed_brake)
 
+        
+
         #Determines the layout of the GUI
         vbox = QVBoxLayout()
         vbox.addWidget(speed_label)
@@ -62,8 +49,8 @@ class Car(QWidget):
         vbox.addWidget(change_speed_button2)
 
         self.setLayout(vbox)
-        self.setGeometry(self.positionx, self.positiony, 200, 200)
-        self.setWindowTitle("Car")
+        self.setGeometry(self.positionx, self.positiony, 800, 200)
+        self.setWindowTitle(self.__year_model + self.__make)
         self.show()
 
     def change_speed_accelerate(self):
@@ -76,6 +63,6 @@ class Car(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    car = Car("1990","5th Edition", 100, 100)
+    car = Car("1990 ","5th Edition", 100, 100)
     sys.exit(app.exec_())
 

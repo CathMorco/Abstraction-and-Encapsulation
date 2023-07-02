@@ -1,7 +1,5 @@
 #Imports necessary elements
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton
-import sys
-from PyQt5.QtWidgets import QApplication
 
 #creates class for widgets
 class Car(QWidget):
@@ -51,6 +49,24 @@ class Car(QWidget):
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 800, 200)
         self.setWindowTitle(self.__year_model + self.__make)
+
+        self.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                color: #333333;
+            }
+            QPushButton {
+                font-size: 20px;
+                padding: 15px;
+                background-color: #7393B3;
+                color: white;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #0096FF;
+            }
+        """)
+
         self.show()
 
     def change_speed_accelerate(self):
@@ -61,8 +77,4 @@ class Car(QWidget):
         self.brake()
         self.speed_value_label.setText(str(self.get_speed()))
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    car = Car("1990 ","5th Edition", 100, 100)
-    sys.exit(app.exec_())
 

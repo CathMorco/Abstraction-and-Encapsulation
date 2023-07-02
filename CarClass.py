@@ -14,7 +14,9 @@
 #The get_speed method should return the current speed.
 
 #Imports necessary elements
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QInputDialog, QMessageBox
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton
+import sys
+from PyQt5.QtWidgets import QApplication
 
 #creates class for widgets
 class Car(QWidget):
@@ -44,76 +46,36 @@ class Car(QWidget):
     def initUI(self):
         #Creates the appropriate labels for each function
         speed_label = QLabel("Speed:")
-        self.speed_value_label = QLabel(str(self.getter_speed()))
-        on_label = QLabel("On:")
-        self.on_value_label = QLabel(str(self.__on))
-        radius_label = QLabel("Radius:")
-        self.radius_value_label = QLabel(str(self.getter_radius()))
-        color_label = QLabel("Color:")
-        self.color_value_label = QLabel(self.getter_color())
-        
-        #Creates buttons for each function
-        change_on_button = QPushButton("Power")
-        change_on_button.clicked.connect(self.change_on)
+        self.speed_value_label = QLabel(str(self.get_speed()))
 
-        change_speed_button = QPushButton("Change Speed")
-        change_speed_button.clicked.connect(self.change_speed)
+        change_speed_button1 = QPushButton("Accelerate")
+        change_speed_button1.clicked.connect(self.change_speed_accelerate)
 
-        change_radius_button = QPushButton("Change Radius")
-        change_radius_button.clicked.connect(self.change_radius)
-
-        change_color_button = QPushButton("Change Color")
-        change_color_button.clicked.connect(self.change_color)
+        change_speed_button2 = QPushButton("Brake")
+        change_speed_button2.clicked.connect(self.change_speed_brake)
 
         #Determines the layout of the GUI
         vbox = QVBoxLayout()
         vbox.addWidget(speed_label)
         vbox.addWidget(self.speed_value_label)
-        vbox.addWidget(on_label)
-        vbox.addWidget(self.on_value_label)
-        vbox.addWidget(radius_label)
-        vbox.addWidget(self.radius_value_label)
-        vbox.addWidget(color_label)
-        vbox.addWidget(self.color_value_label)
-        vbox.addWidget(change_on_button)
-        vbox.addWidget(change_speed_button)
-        vbox.addWidget(change_radius_button)
-        vbox.addWidget(change_color_button)
+        vbox.addWidget(change_speed_button1)
+        vbox.addWidget(change_speed_button2)
 
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 200, 200)
-        self.setWindowTitle("Fan")
+        self.setWindowTitle("Car")
         self.show()
 
-    #The function that is connected to the change speed button, it utilizes the setters and getters of the program
-    def change_speed(self):
-        speed, ok = QInputDialog.getInt(self, "Change Speed", "Enter Speed(1-3):", self.__speed, 1, 3)
-        if ok:
-            speed_labels = {1: "slow", 2: "medium", 3: "fast"}
-            if speed in speed_labels:
-                self.setter_speed(speed)
-                self.speed_value_label.setText(str(self.getter_speed()) + " (" + speed_labels[speed] + ")")
+    def change_speed_accelerate(self):
+        self.accelerate()
+        self.speed_value_label.setText(str(self.get_speed()))
 
-    #The function that is connected to the Power Button it utilizes the setters and getters of the program
-    def change_on(self):
-        self.setter_on(not self.__on)
-        self.on_value_label.setText(str(self.getter_on()))
+    def change_speed_brake(self):
+        self.brake()
+        self.speed_value_label.setText(str(self.get_speed()))
 
-    #The function that is connected to the change radius button, it utilizes the setters and getters of the program
-    def change_radius(self):
-        radius, ok = QInputDialog.getInt(self, "Change Radius", "Enter Radius. Your Radius Should not be Negative in Value:", self.__radius)
-        if ok:
-            if radius >= 0:
-                self.setter_radius(radius)
-                self.radius_value_label.setText(str(self.getter_radius()))
-            else:
-                QMessageBox.warning(self, "Invalid Radius", "I'm sorry, your radius can not be negative in value, please choose a positive integer")
-
-    #The function that is connected to the change colors button, it utilizes the setters and getters of the program
-    def change_color(self):
-        colors = ["Red", "Green", "Blue", "Pink", "White", "Orange", "Yellow", "Purple","Lilac","Lavender","Indigo"]
-        color, ok = QInputDialog.getItem(self, "Change Color", "Select Color:", colors, 0, False)
-        if ok and color:
-            self.setter_color(color)
-            self.color_value_label.setText(str(self.getter_color()))
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    car = Car("1990","5th Edition", 100, 100)
+    sys.exit(app.exec_())
 

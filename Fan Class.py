@@ -8,7 +8,7 @@
 
 #Imports necessary elements
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QInputDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QInputDialog, QMessageBox
 
 #creates class for widgets
 class Fan(QWidget):
@@ -86,10 +86,12 @@ class Fan(QWidget):
         self.show()
 
     def change_speed(self):
-        speed, ok = QInputDialog.getInt(self, "Change Speed", "Enter Speed:", self.__speed)
+        speed, ok = QInputDialog.getInt(self, "Change Speed", "Enter Speed(1-3):", self.__speed, 1, 3)
         if ok:
-            self.setter_speed(speed)
-            self.speed_value_label.setText(str(self.getter_speed()))
+            speed_labels = {1: "slow", 2: "medium", 3: "fast"}
+            if speed in speed_labels:
+                self.setter_speed(speed)
+                self.speed_value_label.setText(str(self.getter_speed()) + " (" + speed_labels[speed] + ")")
 
     def change_on(self):
         self.setter_on(not self.__on)

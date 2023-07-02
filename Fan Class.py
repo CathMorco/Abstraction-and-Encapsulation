@@ -57,9 +57,9 @@ class Fan(QWidget):
         on_label = QLabel("On:")
         self.on_value_label = QLabel(str(self.__on))
         radius_label = QLabel("Radius:")
-        radius_value_label = QLabel(str(self.__radius))
+        self.radius_value_label = QLabel(str(self.getter_radius()))
         color_label = QLabel("Color:")
-        color_value_label = QLabel(self.__color)
+        color_value_label = QLabel(self.getter_color())
 
         change_speed_button = QPushButton("Change Speed")
         change_speed_button.clicked.connect(self.change_speed)
@@ -67,6 +67,8 @@ class Fan(QWidget):
         change_on_button = QPushButton("Turn On/Off")
         change_on_button.clicked.connect(self.change_on)
 
+        change_radius_button = QPushButton("Change Radius")
+        change_radius_button.clicked.connect(self.change_radius)
 
         vbox = QVBoxLayout()
         vbox.addWidget(speed_label)
@@ -74,11 +76,12 @@ class Fan(QWidget):
         vbox.addWidget(on_label)
         vbox.addWidget(self.on_value_label)
         vbox.addWidget(radius_label)
-        vbox.addWidget(radius_value_label)
+        vbox.addWidget(self.radius_value_label)
         vbox.addWidget(color_label)
         vbox.addWidget(color_value_label)
         vbox.addWidget(change_speed_button)
         vbox.addWidget(change_on_button)
+        vbox.addWidget(change_radius_button)
 
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 200, 200)
@@ -97,6 +100,15 @@ class Fan(QWidget):
         self.setter_on(not self.__on)
         self.on_value_label.setText(str(self.__on))
 
+
+    def change_radius(self):
+        radius, ok = QInputDialog.getInt(self, "Change Radius", "Enter Radius. Your Radius Should not be Negative in Value:", self.__radius)
+        if ok:
+            if radius >= 0:
+                self.setter_radius(radius)
+                self.radius_value_label.setText(str(self.getter_radius()))
+            else:
+                QMessageBox.warning(self, "Invalid Radius", "I'm sorry, your radius can not be negative in value, please choose a positive integer")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

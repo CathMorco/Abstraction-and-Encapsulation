@@ -30,7 +30,7 @@ class Pet(QWidget):
         self.positiony = y
         self.__name = ""
         self.__animal_type = ""
-        self.__age = ""
+        self.__age = 0
 
         
         self.initUI()
@@ -67,8 +67,14 @@ class Pet(QWidget):
         self.age_value_label = QLabel(str(self.get_age()))
         
         #Creates buttons for each function
-        change_name_button = QPushButton("Name")
+        change_name_button = QPushButton("Change Name")
         change_name_button.clicked.connect(self.change_name)
+
+        change_animal_type_button = QPushButton("Change Animal Type")
+        change_animal_type_button.clicked.connect(self.change_animalType)
+
+        change_age_button = QPushButton("Change Age")
+        change_age_button.clicked.connect(self.change_age)
 
         #Determines the layout of the GUI
         vbox = QVBoxLayout()
@@ -80,6 +86,8 @@ class Pet(QWidget):
         vbox.addWidget(self.age_value_label)
 
         vbox.addWidget(change_name_button)
+        vbox.addWidget(change_animal_type_button)
+        vbox.addWidget(change_age_button)
 
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 200, 200)
@@ -91,6 +99,22 @@ class Pet(QWidget):
         if ok and name:
             self.set_name(name)
             self.nameLabel.setText(str(self.get_name()))
+
+    def change_animalType(self):
+        animals = ["Cat","Dog","Bird"]
+        animal, ok = QInputDialog.getItem(self, "Change Animal Type", "Select Animal Type:", animals, 0, False)
+        if ok and animal:
+            self.set_animal_type(animal)
+            self.animalType_label.setText(str(self.get_animal_type()))
+
+    def change_age(self):
+        age, ok = QInputDialog.getInt(self, "Change Age", "Enter Age. Your Age Should not be Negative in Value:", self.__age)
+        if ok:
+            if age >= 0:
+                self.set_age(age)
+                self.age_value_label.setText(str(self.get_age()))
+            else:
+                QMessageBox.warning(self, "Invalid Age", "I'm sorry, your pet's age can not possibly be negative in value, please choose a positive integer")
 
 
 if __name__ == '__main__':

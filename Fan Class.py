@@ -15,15 +15,42 @@ from PyQt5.QtCore import QTimer
 
 #creates class for widgets
 class Calculator(QWidget):
-    def __init__(self, model, x, y):
+    def __init__(self, speed, radius, color, x, y):
         super().__init__()
         self.positionx = x
         self.positiony = y
-        self.model = model
+        self.__speed = speed
         self.initUI()
         self.on = False
+        self.__radius = radius
+        self.__color = color
 
+# accessor(getters)  and mutator(setters) for a private int data field named speed 
+    def getter_speed(self):
+        return self.__speed
 
+    def setter_speed(self, speed):
+        self.__speed = speed
+# accessor(getters)  and mutator(setters) for a private bool data field named on
+    def getter_on(self):
+        return self.__on
+
+    def setter_on(self, on):
+        self.__on = on
+
+# accessor(getters)  and mutator(setters) for a private float data field named radius
+    def getter_radius(self):
+        return self.__radius
+
+    def setter_radius(self, radius):
+        self.__radius = radius
+
+# accessor(getters)  and mutator(setters)  for a private string data field named color
+    def getter_color(self):
+        return self.__color
+
+    def setter_color(self, color):
+        self.__color = color
 
 #creates function for GUI
 

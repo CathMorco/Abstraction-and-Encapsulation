@@ -4,5 +4,5 @@ from PyQt5.QtWidgets import QApplication
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    car = Car("1990 ","5th Edition", 100, 100)
+    car = Car("2003 ","Chevrolet", 100, 100)
     sys.exit(app.exec_())

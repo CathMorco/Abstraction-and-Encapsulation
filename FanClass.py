@@ -110,7 +110,7 @@ class Fan(QWidget):
                 self.radius_value_label.setText(str(self.getter_radius()))
             else:
                 QMessageBox.warning(self, "Invalid Radius", "I'm sorry, your radius can not be negative in value, please choose a positive integer")
-                
+
     #The function that is connected to the change colors button, it utilizes the setters and getters of the program
     def change_color(self):
         colors = ["Red", "Green", "Blue", "Pink", "White", "Orange", "Yellow", "Purple","Lilac","Lavender","Indigo"]
@@ -119,8 +119,3 @@ class Fan(QWidget):
             self.setter_color(color)
             self.color_value_label.setText(str(self.getter_color()))
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    Fan1 = Fan(3,10,"Yellow", 100, 100)
-    Fan2 = Fan(2,5,"Blue", 500, 100)
-    sys.exit(app.exec_())

@@ -8,7 +8,7 @@
 
 #Imports necessary elements
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QInputDialog
 
 #creates class for widgets
 class Fan(QWidget):
@@ -16,7 +16,7 @@ class Fan(QWidget):
         super().__init__()
         self.positionx = x
         self.positiony = y
-        self.__speed = 0
+        self.__speed = 1
         self.__on = False
         self.__radius = 0
         self.__color = ""
@@ -53,28 +53,48 @@ class Fan(QWidget):
 
     def initUI(self):
         speed_label = QLabel("Speed:")
-        speed_value_label = QLabel(str(self.__speed))
+        self.speed_value_label = QLabel(str(self.getter_speed()))
         on_label = QLabel("On:")
-        on_value_label = QLabel(str(self.__on))
+        self.on_value_label = QLabel(str(self.__on))
         radius_label = QLabel("Radius:")
         radius_value_label = QLabel(str(self.__radius))
         color_label = QLabel("Color:")
         color_value_label = QLabel(self.__color)
 
+        change_speed_button = QPushButton("Change Speed")
+        change_speed_button.clicked.connect(self.change_speed)
+
+        change_on_button = QPushButton("Turn On/Off")
+        change_on_button.clicked.connect(self.change_on)
+
+
         vbox = QVBoxLayout()
         vbox.addWidget(speed_label)
-        vbox.addWidget(speed_value_label)
+        vbox.addWidget(self.speed_value_label)
         vbox.addWidget(on_label)
-        vbox.addWidget(on_value_label)
+        vbox.addWidget(self.on_value_label)
         vbox.addWidget(radius_label)
         vbox.addWidget(radius_value_label)
         vbox.addWidget(color_label)
         vbox.addWidget(color_value_label)
+        vbox.addWidget(change_speed_button)
+        vbox.addWidget(change_on_button)
 
         self.setLayout(vbox)
         self.setGeometry(self.positionx, self.positiony, 200, 200)
         self.setWindowTitle("Fan")
         self.show()
+
+    def change_speed(self):
+        speed, ok = QInputDialog.getInt(self, "Change Speed", "Enter Speed:", self.__speed)
+        if ok:
+            self.setter_speed(speed)
+            self.speed_value_label.setText(str(self.getter_speed()))
+
+    def change_on(self):
+        self.setter_on(not self.__on)
+        self.on_value_label.setText(str(self.__on))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
